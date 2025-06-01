@@ -1,0 +1,26 @@
+name: Run CV Generator with Groq
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-cv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create .env.local from secret
+        run: |
+          echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" > .env.local
+
+      - name: Run the app (or script)
+        run: npm run build # o el comando que use tu app 
