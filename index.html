@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civi - Creador de CV Inteligente</title>
+    <style>
+        /* ===== RESET Y CONFIGURACIÓN BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Paleta de colores armónica violeta y verde */
+            --violeta-principal: #6A0DAD;
+            --violeta-claro: #8A2BE2;
+            --violeta-oscuro: #4B0082;
+            --violeta-suave: #F3E5F5;
+            
+            --verde-principal: #32CD32;
+            --verde-claro: #90EE90;
+            --verde-oscuro: #228B22;
+            --verde-suave: #D4F5E9;
+            
+            /* Colores neutros */
+            --blanco: #FFFFFF;
+            --gris-claro: #F8F9FA;
+            --gris-medio: #6C757D;
+            --gris-oscuro: #343A40;
+            --negro-suave: #2C3E50;
+            
+            /* Tipografía */
+            --fuente-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --fuente-titulo: 'Arial', sans-serif;
+            
+            /* Espaciado */
+            --espaciado-xs: 0.5rem;
+            --espaciado-sm: 1rem;
+            --espaciado-md: 1.5rem;
+            --espaciado-lg: 2rem;
+            --espaciado-xl: 3rem;
+            
+            /* Sombras */
+            --sombra-suave: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --sombra-media: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --sombra-fuerte: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            font-family: var(--fuente-principal);
+            line-height: 1.6;
+            color: var(--negro-suave);
+            background: linear-gradient(135deg, var(--violeta-suave) 0%, var(--verde-suave) 100%);
+            min-height: 100vh;
+        }
+
+        /* ===== LAYOUT PRINCIPAL CON GRID ===== */
+        .contenedor-principal {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas: 
+                "header"
+                "main"
+                "footer";
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            box-shadow: var(--sombra-fuerte);
+            background: var(--blanco);
+        }
+
+        /* ===== HEADER - NAVEGACIÓN SUPERIOR ===== */
+        .header {
+            grid-area: header;
+            background: linear-gradient(135deg, var(--violeta-principal) 0%, var(--violeta-claro) 100%);
+            color: var(--blanco);
+            padding: var(--espaciado-md) var(--espaciado-lg);
+            box-shadow: var(--sombra-media);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            pointer-events: none;
+        }
+
+        .header-contenido {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: var(--espaciado-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Logo y título mejorados */
+        .logo-seccion {
+            display: flex;
+            align-items: center;
+            gap: var(--espaciado-sm);
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--blanco);
+            box-shadow: 0 4px 15px rgba(50, 205, 50, 0.4);
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .titulo-sitio {
+            font-family: var(--fuente-titulo);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitulo-sitio {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+            margin-top: -5px;
+        }
+
+        /* Navegación mejorada */
+        .navegacion {
+            display: flex;
+            gap: var(--espaciado-sm);
+            align-items: center;
+        }
+
+        .btn-nav {
+            padding: var(--espaciado-xs) var(--espaciado-md);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .btn-nav:hover {
+            background: var(--blanco);
+            color: var(--violeta-principal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== MAIN - CONTENIDO PRINCIPAL ===== */
+        .main {
+            grid-area: main;
+            padding: var(--espaciado-xl) var(--espaciado-lg);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 70vh;
+        }
+
+        /* Contenedor principal del creador de CV */
+        .cv-creador-contenedor {
+            width: 100%;
+            max-width: 900px;
+            background: var(--blanco);
+            border-radius: 20px;
+            box-shadow: var(--sombra-fuerte);
+            border: 1px solid rgba(106, 13, 173, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header del creador de CV */
+        .cv-header {
+            background: linear-gradient(135deg, var(--violeta-claro) 0%, var(--verde-principal) 100%);
+            color: var(--blanco);
+            padding: var(--espaciado-xl);
+            text-align: center;
+            position: relative;
+        }
+
+        .cv-titulo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--espaciado-xs);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .cv-subtitulo {
+            opacity: 0.95;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Indicador de pasos */
+        .pasos-indicador {
+            display: flex;
+            justify-content: center;
+            gap: var(--espaciado-lg);
+            margin-top: var(--espaciado-lg);
+        }
+
+        .paso-item {
+            display: flex;
+            align-items: center;
+            gap: var(--espaciado-xs);
+            padding: var(--espaciado-xs) var(--espaciado-md);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .paso-numero {
+            width: 24px;
+            height: 24px;
+            background: var(--blanco);
+            color: var(--violeta-principal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Contenido principal del CV */
+        .cv-contenido {
+            padding: var(--espaciado-xl);
+        }
+
+        /* ===== PASO 1: DATOS PERSONALES DEL CV ===== */
+        .paso-1-contenedor {
+            background: linear-gradient(135deg, var(--violeta-suave) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border: 2px solid var(--violeta-claro);
+            border-radius: 15px;
+            padding: var(--espaciado-xl);
+            margin-bottom: var(--espaciado-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paso-1-contenedor::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(106, 13, 173, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .paso-titulo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--violeta-principal);
+            margin-bottom: var(--espaciado-md);
+            display: flex;
+            align-items: center;
+            gap: var(--espaciado-sm);
+            position: relative;
+            z-index: 1;
+        }
+
+        .paso-icono {
+            width: 30px;
+            height: 30px;
+            background: var(--violeta-principal);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blanco);
+            font-weight: bold;
+        }
+
+        .paso-descripcion {
+            color: var(--gris-oscuro);
+            margin-bottom: var(--espaciado-lg);
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .campos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--espaciado-md);
+            margin-bottom: var(--espaciado-lg);
+            position: relative;
+            z-index: 1;
+        }
+
+        .campo-placeholder {
+            background: var(--blanco);
+            border: 2px dashed var(--violeta-claro);
+            border-radius: 10px;
+            padding: var(--espaciado-md);
+            text-align: center;
+            color: var(--gris-medio);
+            font-style: italic;
+            transition: all 0.3s ease;
+        }
+
+        .campo-placeholder:hover {
+            border-color: var(--violeta-principal);
+            background: rgba(106, 13, 173, 0.05);
+        }
+
+        /* ===== PASO 2: APLICACIÓN AL TRABAJO ===== */
+        .paso-2-contenedor {
+            background: linear-gradient(135deg, var(--verde-suave) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border: 2px solid var(--verde-principal);
+            border-radius: 15px;
+            padding: var(--espaciado-xl);
+            margin-bottom: var(--espaciado-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paso-2-contenedor::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(50, 205, 50, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .paso-2-contenedor .paso-titulo {
+            color: var(--verde-oscuro);
+        }
+
+        .paso-2-contenedor .paso-icono {
+            background: var(--verde-principal);
+        }
+
+        .paso-2-contenedor .campo-placeholder {
+            border-color: var(--verde-principal);
+        }
+
+        .paso-2-contenedor .campo-placeholder:hover {
+            border-color: var(--verde-oscuro);
+            background: rgba(50, 205, 50, 0.05);
+        }
+
+        /* ===== BOTONES DE NAVEGACIÓN Y ACCIONES ===== */
+        .botones-contenedor {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--espaciado-md);
+            margin-top: var(--espaciado-xl);
+        }
+
+        .btn {
+            padding: var(--espaciado-md) var(--espaciado-lg);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--espaciado-xs);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Botón primario - Continuar */
+        .btn-continuar {
+            background: linear-gradient(135deg, var(--violeta-principal) 0%, var(--violeta-claro) 100%);
+            color: var(--blanco);
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.3);
+        }
+
+        .btn-continuar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(106, 13, 173, 0.4);
+        }
+
+        /* Botón secundario - Volver */
+        .btn-volver {
+            background: var(--gris-claro);
+            color: var(--gris-oscuro);
+            border: 2px solid var(--gris-medio);
+        }
+
+        .btn-volver:hover {
+            background: var(--gris-medio);
+            color: var(--blanco);
+            transform: translateY(-2px);
+        }
+
+        /* Botón de éxito - Generar CV */
+        .btn-generar {
+            background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-claro) 100%);
+            color: var(--blanco);
+            box-shadow: 0 4px 15px rgba(50, 205, 50, 0.3);
+        }
+
+        .btn-generar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(50, 205, 50, 0.4);
+        }
+
+        /* Botón especial - Mejorar con IA */
+        .btn-ia {
+            background: linear-gradient(135deg, var(--violeta-oscuro) 0%, var(--verde-oscuro) 100%);
+            color: var(--blanco);
+            box-shadow: 0 4px 20px rgba(75, 8, 130, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ia::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-ia:hover::before {
+            left: 100%;
+        }
+
+        .btn-ia:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(75, 8, 130, 0.5);
+        }
+
+        /* Icono de IA hecho con CSS */
+        .icono-ia {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .icono-ia::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: currentColor;
+            clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 85% 65%, 75% 90%, 50% 100%, 25% 90%, 15% 65%, 0% 35%, 20% 10%);
+        }
+
+        .icono-ia::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: var(--violeta-oscuro);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Efectos de animación para botones */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* ===== FOOTER SIMPLIFICADO ===== */
+        .footer {
+            grid-area: footer;
+            background: linear-gradient(135deg, var(--negro-suave) 0%, var(--violeta-oscuro) 100%);
+            color: var(--blanco);
+            padding: var(--espaciado-lg);
+            text-align: center;
+        }
+
+        .footer-contenido {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-titulo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: var(--espaciado-sm);
+            color: var(--verde-claro);
+        }
+
+        .footer-descripcion {
+            opacity: 0.9;
+            margin-bottom: var(--espaciado-md);
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--espaciado-lg);
+            margin-bottom: var(--espaciado-md);
+        }
+
+        .footer-link {
+            color: var(--blanco);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            color: var(--verde-claro);
+        }
+
+        .derechos {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: var(--espaciado-md);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .header-contenido {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                gap: var(--espaciado-sm);
+                text-align: center;
+            }
+
+            .navegacion {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .main {
+                padding: var(--espaciado-lg) var(--espaciado-sm);
+            }
+
+            .cv-contenido {
+                padding: var(--espaciado-lg);
+            }
+
+            .pasos-indicador {
+                flex-direction: column;
+                gap: var(--espaciado-sm);
+            }
+
+            .campos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .botones-contenedor {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: var(--espaciado-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .titulo-sitio {
+                font-size: 1.6rem;
+            }
+
+            .cv-titulo {
+                font-size: 1.6rem;
+            }
+
+            .paso-titulo {
+                font-size: 1.3rem;
+            }
+
+            .btn {
+                padding: var(--espaciado-sm) var(--espaciado-md);
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== CONTENEDOR PRINCIPAL CON GRID ===== -->
+    <div class="contenedor-principal">
+        
+        <!-- ===== HEADER - NAVEGACIÓN SUPERIOR ===== -->
+        <header class="header">
+            <div class="header-contenido">
+                <!-- Logo y título del sitio -->
+                <div class="logo-seccion">
+                    <div class="logo">C</div>
+                    <div>
+                        <h1 class="titulo-sitio">Civi</h1>
+                        <p class="subtitulo-sitio">Creador de CV Inteligente</p>
+                    </div>
+                </div>
+
+                <!-- Espacio flexible -->
+                <div></div>
+
+                <!-- Navegación simplificada -->
+                <nav class="navegacion">
+                    <a href="#" class="btn-nav">Inicio</a>
+                    <a href="#" class="btn-nav">Plantillas</a>
+                    <a href="#" class="btn-nav">Ayuda</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ===== MAIN - CREADOR DE CV ===== -->
+        <main class="main">
+            <!-- Contenedor principal del creador de CV -->
+            <div class="cv-creador-contenedor">
+                
+                <!-- Header del creador -->
+                <div class="cv-header">
+                    <h2 class="cv-titulo">Crea tu CV Perfecto</h2>
+                    <p class="cv-subtitulo">Sigue estos simples pasos para crear un CV profesional y personalizado</p>
+                    
+                    <!-- Indicador de pasos -->
+                    <div class="pasos-indicador">
+                        <div class="paso-item">
+                            <div class="paso-numero">1</div>
+                            <span>Datos Personales</span>
+                        </div>
+                        <div class="paso-item">
+                            <div class="paso-numero">2</div>
+                            <span>Aplicación al Trabajo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido principal -->
+                <div class="cv-contenido">
+                    
+                    <!-- ===== PASO 1: DATOS PERSONALES DEL CV ===== -->
+                    <div class="paso-1-contenedor">
+                        <h3 class="paso-titulo">
+                            <div class="paso-icono">👤</div>
+                            Paso 1: Información Personal y Profesional
+                        </h3>
+                        <p class="paso-descripcion">
+                            Completa tu información personal, experiencia laboral, educación y habilidades. 
+                            Esta información formará la base de tu CV profesional.
+                        </p>
+                        
+                        <!-- Grid de campos placeholder -->
+                        <div class="campos-grid">
+                            <div class="campo-placeholder">
+                                📝 Información Personal<br>
+                                <small>(Nombre, contacto, ubicación)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                💼 Experiencia Laboral<br>
+                                <small>(Trabajos anteriores, logros)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                🎓 Educación<br>
+                                <small>(Títulos, certificaciones)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                ⚡ Habilidades<br>
+                                <small>(Técnicas y blandas)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                🌐 Idiomas<br>
+                                <small>(Nivel de competencia)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                🏆 Logros y Proyectos<br>
+                                <small>(Destacados relevantes)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== PASO 2: APLICACIÓN AL TRABAJO OBJETIVO ===== -->
+                    <div class="paso-2-contenedor">
+                        <h3 class="paso-titulo">
+                            <div class="paso-icono">🎯</div>
+                            Paso 2: Personalización para el Trabajo Objetivo
+                        </h3>
+                        <p class="paso-descripcion">
+                            Personaliza tu CV para el trabajo específico al que te postulas. 
+                            Esto aumentará significativamente tus posibilidades de éxito.
+                        </p>
+                        
+                        <!-- Grid de campos específicos para aplicación -->
+                        <div class="campos-grid">
+                            <div class="campo-placeholder">
+                                🏢 Empresa Objetivo<br>
+                                <small>(Nombre y sector)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                📋 Puesto Deseado<br>
+                                <small>(Título y descripción)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                📄 Descripción del Trabajo<br>
+                                <small>(Requisitos y responsabilidades)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                🔍 Palabras Clave<br>
+                                <small>(Del anuncio de trabajo)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                💡 Objetivo Profesional<br>
+                                <small>(Personalizado para el puesto)</small>
+                            </div>
+                            <div class="campo-placeholder">
+                                ✨ Experiencia Relevante<br>
+                                <small>(Destacar lo más importante)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== BOTONES DE NAVEGACIÓN Y ACCIONES ===== -->
+                    <div class="botones-contenedor">
+                        <!-- Botón para continuar al paso 2 -->
+                        <button class="btn btn-continuar">
+                            ➡️ Continuar a Aplicación
+                        </button>
+                        
+                        <!-- Botón para volver al paso 1 -->
+                        <button class="btn btn-volver">
+                            ⬅️ Volver a Datos del CV
+                        </button>
+                        
+                        <!-- Botón para generar CV -->
+                        <button class="btn btn-generar">
+                            📄 Generar CV Personalizado
+                        </button>
+                        
+                        <!-- Botón especial con IA -->
+                        <button class="btn btn-ia">
+                            <span class="icono-ia"></span>
+                            Mejorar con IA
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- ===== FOOTER SIMPLIFICADO ===== -->
+        <footer class="footer">
+            <div class="footer-contenido">
+                <h3 class="footer-titulo">Civi - Tu Asistente de Carrera</h3>
+                <p class="footer-descripcion">
+                    Creamos CVs profesionales y personalizados que te ayudan a destacar 
+                    en el mercado laboral competitivo de hoy.
+                </p>
+                
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Política de Privacidad</a>
+                    <a href="#" class="footer-link">Términos de Servicio</a>
+                    <a href="#" class="footer-link">Contacto</a>
+                    <a href="#" class="footer-link">FAQ</a>
+                </div>
+                
+                <div class="derechos">
+                    <p>&copy; 2024 Civi. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>

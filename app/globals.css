@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 270 50% 40%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 142 70% 50%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 270 50% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 270 50% 40%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 270 50% 60%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 142 70% 50%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 270 50% 16%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 270 50% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-poppins font-semibold;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Smooth focus transitions */
+input:focus,
+textarea:focus {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Fixed header backdrop blur support */
+@supports (backdrop-filter: blur(12px)) {
+  .backdrop-blur-md {
+    backdrop-filter: blur(12px);
+  }
+  .backdrop-blur-sm {
+    backdrop-filter: blur(6px);
+  }
+}
+
+/* Custom animations */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scroll margin for fixed header */
+.scroll-mt-32 {
+  scroll-margin-top: 8rem;
+}
+
+/* Theme transition utilities */
+.theme-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.theme-transition-colors {
+  @apply transition-colors duration-300 ease-in-out;
+}
+
+.theme-transition-opacity {
+  @apply transition-opacity duration-300 ease-in-out;
+}
+
+.theme-transition-transform {
+  @apply transition-transform duration-300 ease-in-out;
+}
+
+/* Dark mode transitions */
+* {
+  @apply theme-transition-colors;
+}
+
+/* Specific element transitions */
+.bg-gradient-to-br,
+.bg-gradient-to-r {
+  @apply theme-transition;
+}
+
+.text-gradient {
+  @apply theme-transition;
+}
+
+.border {
+  @apply theme-transition-colors;
+}
+
+.shadow {
+  @apply theme-transition;
+}
+
+/* Card transitions */
+.card {
+  @apply theme-transition-colors;
+}
+
+/* Button transitions */
+button {
+  @apply theme-transition-colors;
+}
+
+/* Input and form element transitions */
+input,
+textarea,
+select {
+  @apply theme-transition-colors;
+}
+
+/* Icon transitions */
+svg {
+  @apply theme-transition-colors;
+}
+
+/* Smooth theme switch animation */
+.theme-switch {
+  @apply relative;
+}
+
+.theme-switch::before {
+  content: '';
+  @apply absolute inset-0 bg-black/5 dark:bg-white/5 opacity-0 transition-opacity duration-300;
+}
+
+.theme-switch:hover::before {
+  @apply opacity-100;
+}
