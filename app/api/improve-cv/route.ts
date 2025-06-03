@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     }
 
     // Lógica anterior para mejora simple o adaptación a puesto
-    const improvedText = await improveCVText(originalText, jobDescription || '', type);
+    const improvedText = await improveCVText(originalText, jobDescription || '', type, language || 'es');
     return NextResponse.json({ improvedText });
   } catch (error) {
     console.error('Error in improve-cv API:', error);

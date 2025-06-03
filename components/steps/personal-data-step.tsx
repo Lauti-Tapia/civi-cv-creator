@@ -263,7 +263,8 @@ export function PersonalDataStep({ value, onChange, jobDescription }: PersonalDa
       body: JSON.stringify({
         originalText: text,
         jobDescription: '',
-        type
+        type,
+        language
       }),
     });
     const data = await response.json();

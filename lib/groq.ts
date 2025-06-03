@@ -99,15 +99,21 @@ function detectLanguage(text: string): 'es' | 'en' {
  * @param originalText - El texto original a mejorar
  * @param jobDescription - La descripción del trabajo objetivo
  * @param type - El tipo de texto a mejorar ('presentation' o 'experience')
+ * @param language - El idioma del texto original
  * @returns El texto mejorado
  */
-export async function improveCVText(originalText: string, jobDescription: string, type: 'presentation' | 'experience'): Promise<string> {
+export async function improveCVText(
+  originalText: string,
+  jobDescription: string,
+  type: 'presentation' | 'experience',
+  language: 'es' | 'en' = 'es'
+): Promise<string> {
   if (!originalText.trim()) {
     throw new Error('Original text is required');
   }
 
   const detectedLanguage = detectLanguage(originalText);
-  const isSpanish = detectedLanguage === 'es';
+  const isSpanish = language === 'es' || detectedLanguage === 'es';
 
   let systemPrompt = '';
   let prompt = '';
@@ -121,7 +127,7 @@ export async function improveCVText(originalText: string, jobDescription: string
       ? `Texto a mejorar:\n${originalText}\n\nDevuelve ÚNICAMENTE el texto mejorado:`
       : `Text to improve:\n${originalText}\n\nReturn ONLY the improved text:`;
   } else {
-    // Adaptación a puesto (como antes)
+    // Adaptación a puesto
     systemPrompt = isSpanish
       ? `Eres un experto en redacción de CVs. Tu única tarea es devolver el texto mejorado, sin ningún tipo de texto adicional.\n       REGLAS ESTRICTAS:\n       1. Devuelve ÚNICAMENTE el texto mejorado\n       2. NO incluyas ningún tipo de introducción, explicación o texto adicional\n       3. NO uses frases como "Mejora del párrafo:", "Versión mejorada:", etc.\n       4. NO agregues información nueva\n       5. NO uses formato markdown ni comillas\n       6. NO des explicaciones sobre lo que hiciste\n       7. NO incluyas ningún tipo de meta-texto\n       8. SOLO devuelve el texto mejorado, nada más`
       : `You are a professional CV writer. Your only task is to return the improved text, without any additional text.\n       STRICT RULES:\n       1. Return ONLY the improved text\n       2. DO NOT include any introduction, explanation, or additional text\n       3. DO NOT use phrases like "Improved paragraph:", "Enhanced version:", etc.\n       4. DO NOT add new information\n       5. DO NOT use markdown formatting or quotes\n       6. DO NOT explain what you did\n       7. DO NOT include any meta-text\n       8. Return ONLY the improved text, nothing else`;
