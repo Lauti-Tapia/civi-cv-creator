@@ -1,14 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/LanguageContext"
-import { useRouter } from "next/navigation"
 
 export function Header() {
   const { language, setLanguage } = useLanguage();
-  const router = useRouter();
 
   const navigateToCafecito = () => {
     const url = "https://cafecito.app/lautarotapia";
-    console.log("Intentando navegar a:", url); // Para debug
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
