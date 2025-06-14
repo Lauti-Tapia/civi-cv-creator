@@ -81,6 +81,7 @@ interface CVData {
   technicalSkills: string
   showCertifications: boolean
   professionalTitle?: string
+  jobDescription?: string
 }
 
 interface PersonalDataStepProps {

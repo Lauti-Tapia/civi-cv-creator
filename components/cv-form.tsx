@@ -74,7 +74,7 @@ interface CVData {
   technicalSkills: string;
   showCertifications: boolean;
   professionalTitle?: string;
-  jobDescription: string;
+  jobDescription?: string;
 }
 
 function ThankYouModal({ open, onClose, language }: { open: boolean, onClose: () => void, language: 'es' | 'en' }) {

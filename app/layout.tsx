@@ -16,7 +16,6 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Civi - Creador de CV Inteligente",
   description: "Crea CVs profesionales y personalizados en minutos con la ayuda de IA",
-  generator: 'v0.dev'
 }
 
 export default function RootLayout({
