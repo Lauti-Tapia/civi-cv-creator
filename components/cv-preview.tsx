@@ -65,7 +65,6 @@ function getLanguage() {
   return 'es';
 }
 
-const lang = getLanguage();
 
 export function CVPreview({ data, language }: { data: CVData, language?: 'es' | 'en' }) {
   const lang = language || 'es';

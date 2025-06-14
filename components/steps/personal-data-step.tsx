@@ -44,10 +44,49 @@ interface Experience {
   description: string
 }
 
+interface Education {
+  uid: string
+  degree: string
+  institution: string
+  graduationYear: string
+}
+
+interface Certification {
+  uid: string
+  name: string
+  institution: string
+  date: string
+  id?: string
+}
+
+interface Language {
+  uid: string
+  language: string
+  level: string
+}
+
+interface CVData {
+  presentation: string
+  fullName: string
+  email: string
+  phone: string
+  city: string
+  country: string
+  links: Link[]
+  objective?: string
+  experiences: Experience[]
+  educations: Education[]
+  certifications: Certification[]
+  languages: Language[]
+  technicalSkills: string
+  showCertifications: boolean
+  professionalTitle?: string
+}
+
 interface PersonalDataStepProps {
-  value: any;
-  onChange: (data: any) => void;
-  jobDescription?: string;
+  value: CVData
+  onChange: (data: CVData) => void
+  jobDescription?: string
 }
 
 /**
